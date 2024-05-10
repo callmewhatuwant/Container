@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: db_test
+    volumes:
+      - db_data_volume:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: B#&f3GMbX0GA#tpu
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: noname
+      MYSQL_PASSWORD: 7aKbW7kDM^RNb3cE
+    networks:
+      - test
+
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin
+    container_name: phpmyadmin_test
+    restart: unless-stopped
+    ports:
+     - '8080:80'
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: B#&f3GMbX0GA#tpu
+    networks:
+      - test
+
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    container_name: wp_test
+    volumes:
+      - wordpress_data_volume:/var/www/html
+    ports:
+      - '80:80'
+    restart: unless-stopped
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: noname
+      WORDPRESS_DB_PASSWORD: 7aKbW7kDM^RNb3cE
+      WORDPRESS_DB_NAME: wordpress
+    networks:
+      - test
+
+networks:
+  test:
+    driver: bridge
+    name: test
+
+volumes:
+  db_data_volume: {}
+  wordpress_data_volume: {}

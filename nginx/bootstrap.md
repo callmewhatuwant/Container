@@ -1,0 +1,101 @@
+# setup nginx
+
+create folders:
+
+```sh
+mkdir nginx
+cd nginx
+mkdir conf
+mkdir certs
+```
+
+add cert and key to certs directory
+
+```sh
+fullchain.cer
+projects.mms-at-work.de.key
+```
+
+add default.conf to conf directory
+
+```sh
+# ------------------------------------------------------------
+# projects.mms-at-work.de
+# ------------------------------------------------------------
+
+
+
+map $scheme $hsts_header {
+    https   "max-age=63072000; preload";
+}
+
+server {
+  set $forward_scheme http;
+  set $server         "10.88.0.1";
+  set $port           1337;
+
+  listen 80;
+listen [::]:80;
+
+listen 443 ssl;
+listen [::]:443 ssl;
+
+
+  server_name projects.mms-at-work.de;
+
+
+  # Custom SSL
+  ssl_certificate     /etc/nginx/ssl/fullchain.cer;
+  ssl_certificate_key /etc/nginx/ssl/projects.mms-at-work.de.key;
+
+
+
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection $http_connection;
+proxy_http_version 1.1;
+
+
+  #access_log /data/logs/proxy-host-1_access.log proxy;
+  #error_log /data/logs/proxy-host-1_error.log warn;
+
+
+
+  location / {
+
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $http_connection;
+    proxy_http_version 1.1;
+
+    add_header       X-Served-By $host;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Scheme $scheme;
+    proxy_set_header X-Forwarded-Proto  $scheme;
+    proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+    proxy_set_header X-Real-IP          $remote_addr;
+    proxy_pass       $forward_scheme://$server:$port$request_uri;
+  }
+
+
+}
+```
+
+add docker-compose file in nginx folder
+
+```sh
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    volumes:
+      - ./conf/:/etc/nginx/conf.d/:ro
+      - ./certs:/etc/nginx/ssl
+```
+
+deploy
+
+```sh
+podman-compose up -d
+```

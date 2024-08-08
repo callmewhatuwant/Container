@@ -1,0 +1,15 @@
+experimental:
+  kubernetesGateway:
+    enabled: true
+providers:
+  kubernetesIngress:
+        enabled: false
+  kubernetesGateway:
+        enabled: true
+gateway:
+  enabled: true
+  listeners:
+    web:
+      namespacePolicy: All
+    websecure:
+      namespacePolicy: All

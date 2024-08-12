@@ -1,4 +1,4 @@
-# Code
+# Funktionsweise
 
 1. Traefik hört auf Port 443 und fungiert als Load Balancer:  
 Traefik empfängt den eingehenden Traffic auf Port 443 (HTTPS).Es fungiert als Load Balancer und ist für das Routing des Traffics innerhalb des Kubernetes-Clusters verantwortlich.  

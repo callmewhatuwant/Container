@@ -64,13 +64,13 @@ data/
 build container
 
 ```sh
-docker build -t mystarpi:latest .
+podman build -t mystarpi:latest .
 ```
 
 run it:
 
 ```sh
-docker run -d -p 1337:1337 mystrapi
+podman run -d -p 1337:1337 mystrapi
 ```
 
 or create a compose file

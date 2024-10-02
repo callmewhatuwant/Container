@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "server"
+  namespace: argo-cd
+spec: 
+  type: ExternalName
+  externalName: "argo-cd-argocd-server.argo-cd.svc.cluster.local"

@@ -1,0 +1,13 @@
+services:
+  http:
+    clusterIP: "10.43.10.80"
+  dns:
+    clusterIP: "10.43.10.53"
+  https:
+    clusterIP: "10.43.10.43"
+
+
+bootstrapConfig:
+  users:
+    - name: ncgo
+      password: must be generated check the docs 

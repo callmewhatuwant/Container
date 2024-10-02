@@ -1,0 +1,2 @@
+global:
+  domain: server.argo-cd.svc.cluster.local

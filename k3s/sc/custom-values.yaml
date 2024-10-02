@@ -1,0 +1,23 @@
+storageClass:
+  name: local-path-default
+  pathPattern: "{{ .PVC.Namespace }}/{{ .PVC.Name }}"
+  defaultClass: true
+  reclaimPolicy: Retain
+
+nodePathMap:
+  - node: DEFAULT_PATH_FOR_NON_LISTED_NODES
+    paths:
+      - /data
+
+podSecurityContext:
+  runAsNonRoot: true
+
+securityContext:
+  allowPrivilegeEscalation: false
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+  runAsUser: 65534
+  runAsGroup: 65534
+  readOnlyRootFilesystem: true

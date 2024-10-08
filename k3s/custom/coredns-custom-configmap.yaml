@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom
+  namespace: kube-system
+data:
+  internal-custom.override: | # any name with .server extension
+    rewrite stop {
+      name regex (.*)\.argo\.internal\.$ {1}.argo-cd.svc.cluster.local.
+      answer name (.*)\.argo-cd\.svc\.cluster\.local\.$ {1}.argo.internal.
+    }
+
+    rewrite stop {
+      name regex (.*)\.adguard\.internal\.$ {1}.adguard-home.svc.cluster.local.
+      answer name (.*)\.adguard-home\.svc\.cluster\.local\.$ {1}.adguard.internal.
+    }
+
+    rewrite stop {
+      name regex (.*)\.grafana\.internal\.$ {1}.grafana.svc.cluster.local.
+      answer name (.*)\.grafana\.svc\.cluster\.local\.$ {1}.grafana.internal.
+    }
+
+    rewrite stop {
+      name regex (.*)\.kuma\.internal\.$ {1}.kuma.svc.cluster.local.
+      answer name (.*)\.kuma\.svc\.cluster\.local\.$ {1}.kuma.internal.
+    }
+
+    rewrite stop {
+      name regex (.*)\.prometheus\.internal\.$ {1}.prometheus.svc.cluster.local.
+      answer name (.*)\.prometheus\.svc\.cluster\.local\.$ {1}.prometheus.internal.
+    }

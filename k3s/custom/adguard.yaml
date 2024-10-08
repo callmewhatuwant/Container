@@ -10,4 +10,4 @@ services:
 bootstrapConfig:
   users:
     - name: ncgo
-      password: must be generated check the docs 
+      password: $2y$10$UNhG7lpDUnEMZRN/FslvoOLqETHV88HYWC/MBuTqg8c4Oy3Y928uO
